@@ -1,0 +1,38 @@
+:root {
+    --bg-color: #fafafa;
+    --accert-color: #265f32;
+
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 62.5%;
+    scroll-behavior: smooth;
+}
+
+
+body {
+    background: var(--bg-color);
+}
+
+
+.full-page {
+    min-height: 100vh;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-content {
+    max-width: 120rem;
+    margin: 0 auto;
+    padding: 5rem 3rem;
+}
