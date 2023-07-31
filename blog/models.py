@@ -1,5 +1,6 @@
 from django.db import models
 from utils.rands import slugify_new
+from django.contrib.auth.models import User
 
 
 class Tag(models.Model):
@@ -47,7 +48,6 @@ class Category(models.Model):
     def __str__(self):
         return self.name
     
-
 
 class Page(models.Model):
     class Meta:
@@ -97,9 +97,33 @@ class Post(models.Model):
     content = models.TextField()
     cover = models.ImageField(upload_to='posts/%Y/%m', blank=True, default='')
     cover_in_post_content = models.BooleanField(
-        default=False,
+        default=True,
         help_text='Este campo precisará estar marcado para exibir a imagem de capa tamém dentro do conteudo do post.'
     )
     created_at = models.DateField(auto_now_add=True)
+    created_by = models.ForeignKey(
+        User, on_delete=models.SET_NULL, null=True, blank=True,
+        related_name='post_created_by'
+    )
     update_at = models.DateField(auto_now=True)
-    crea
+    update_by = models.ForeignKey(
+        User, on_delete=models.SET_NULL, null=True, blank=True,
+        related_name='post_update_by'
+    )
+    tags =  models.ManyToManyField(
+        Tag, blank=True, default=''
+    )
+    category = models.ForeignKey(
+        Category, on_delete=models.SET_NULL,
+        blank=True, null=True,
+        related_name='post_category'
+    )
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify_new(self.title)
+        return super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title
+    
