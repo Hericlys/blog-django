@@ -150,8 +150,9 @@ SUMMERNOTE_CONFIG = {
             'lineWarapping': 'true',
         },
     },
-    'attachment_filesize_limit': 30 * 1024 * 1024,
     'css': (
         '//cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/theme/dracula.min.css',
-    )
+    ),
+    'attachment_filesize_limit': 30 * 1024 * 1024,
+    'attachment_model': 'blog.PostAttachment',
 }

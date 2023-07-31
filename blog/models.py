@@ -2,6 +2,22 @@ from django.db import models
 from utils.rands import slugify_new
 from django.contrib.auth.models import User
 from utils.images import resize_image
+from django_summernote.models import AbstractAttachment
+
+
+class PostAttachment(AbstractAttachment):
+    def save(self, *args, **kwargs):
+        if not self.name:
+            self.name = self.file.name
+        current_file_name = str(self.file.name)
+        super().save(*args, **kwargs)
+        file_changed = False
+
+        if self.file:
+            file_changed = current_file_name != self.file.name
+
+        if file_changed:
+            resize_image(self.file, 900)
 
 
 class Tag(models.Model):
@@ -127,12 +143,12 @@ class Post(models.Model):
         if not self.slug:
             self.slug = slugify_new(self.title)
 
-        current_faveicon_name = str(self.cover.name)
+        current_cover_name = str(self.cover.name)
         super().save(*args, **kwargs)
         cover_changed = False
 
         if self.cover:
-            cover_changed = current_faveicon_name != self.cover.name
+            cover_changed = current_cover_name != self.cover.name
 
         if cover_changed:
             resize_image(self.cover, 900)
