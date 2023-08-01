@@ -5,11 +5,17 @@
     <div class="section-content-wide">
       <div class="section-gap">
 
-        <div class="card-grid">
-          {% for post in page_obj %}
-            {% include 'global/partials/post-card.html' with i=forloop.counter0 %}
-          {% endfor %}
-        </div>
+        {% if page_obj %}
+          <div class="card-grid">
+            {% for post in page_obj %}
+              {% include 'global/partials/post-card.html' with i=forloop.counter0 %}
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="not-found">
+            <h1>Nada encontrado</h1>
+          </div>
+        {% endif %}
 
       </div>
     </div>
