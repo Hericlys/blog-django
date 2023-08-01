@@ -107,6 +107,7 @@ class Post(models.Model):
         blank=True,
         max_length=255,
     )
+    excerpt = models.CharField(max_length=255, default='')
     is_published = models.BooleanField(
         default=False,
         help_text='Este campo precisará estar marcado para o Post ser exibida publicamente'
