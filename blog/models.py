@@ -91,6 +91,11 @@ class Page(models.Model):
             self.slug = slugify_new(self.title)
         return super().save(*args, **kwargs)
 
+    def get_absolute_url(self):
+        if not self.is_published:
+            return reverse("blog:index")
+        return reverse("blog:page", args=(self.slug,))
+    
     def __str__(self):
         return self.title
     
